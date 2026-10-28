@@ -27,7 +27,7 @@ class BookCategoryController extends Controller
                     $method = method_field('DELETE');
 
                     return '
-                        <a href="' . $editUrl . ' class="btn btn-sm btn-warning">Edit</a>
+                        <a href="' . $editUrl . '" class="btn btn-sm btn-warning">Edit</a>
                         <form action="' . $destroyUrl . '" method="POST" class="d-inline">
                             ' . $csrf . '
                             ' . $method . '

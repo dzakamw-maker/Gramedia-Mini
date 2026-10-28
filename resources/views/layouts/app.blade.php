@@ -34,6 +34,7 @@
 <body>
     <x-navbar />
     @yield('content')
+    <x-footer />
     {{--CDN TABLER --}}
     <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.5.1/dist/js/tabler.min.js"></script>
     {{-- CDN DataTables --}}
@@ -42,9 +43,9 @@
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <!-- CDN Quill js -->
      <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
-     
+      
     @stack('scripts')
 </body>
-<x-footer />
+
 
 </html>

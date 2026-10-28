@@ -136,51 +136,27 @@
         </span>
     </div>
     <div class="row g-4">
+        @forelse ($subscriptionPackages as $package)
         <div class="col-md-4">
-            <div class="card h-100" style="background: linear-gradient(135deg, #ffffff 0%, #a7f1c6 100%);">
+            <div class="card h-100" style="background: linear-gradient(135deg, #ffffff 0%, {{ $package->color }} 100%);">
                 <div class="card-body row">
                     <div class="col-4"></div>
                     <div class="col-6 text-center text-dark">
-                        <h2 style="font-weight: bold">NON FICTION</h2>
-                        <p class="text-secondary" style="font-weight: bold; margin: 0 !important">Package</p>
+                        <h2 style="font-weight: bold" class="text-uppercase">{{ $package->name_package }}</h2>
+                        <p class="text-secondary" style="font-weight: bold; margin: 0 !important">{{ $package->description }}</p>
                         <div>
-                            Rp <span style="font-size: 2rem; font-weight: bold;" class="text-warning">49.000</span><br>
+                            Rp <span style="font-size: 2rem; font-weight: bold;" class="text-warning">{{ number_format($package->price, 0, ',', '.') }}</span><br>
                             <span class="text-secondary" style="font-weight: bold; margin: 0 !important">/30 days</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card h-100" style="background: linear-gradient(135deg, #ffffff 0%, #a49dd0 100%);">
-                <div class="card-body row">
-                    <div class="col-4"></div>
-                    <div class="col-6 text-center text-dark">
-                        <h2 style="font-weight: bold">FICTION</h2>
-                        <p class="text-secondary" style="font-weight: bold; margin: 0 !important">Package</p>
-                        <div>
-                            Rp <span style="font-size: 2rem; font-weight: bold;" class="text-warning">79.000</span><br>
-                            <span class="text-secondary" style="font-weight: bold; margin: 0 !important">/30 days</span>
-                        </div>
-                    </div>
-                </div>
+        @empty
+            <div class="col-12 text-center text-secondary">
+                <p>Tidak ada paket langganan.</p>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card h-100" style="background: linear-gradient(135deg, #ffffff 0%, #f1b8a7 100%);">
-                <div class="card-body row">
-                    <div class="col-4"></div>
-                    <div class="col-6 text-center text-dark">
-                        <h2 style="font-weight: bold">PREMIUM</h2>
-                        <p class="text-secondary" style="font-weight: bold; margin: 0 !important">Package</p>
-                        <div>
-                            Rp <span style="font-size: 2rem; font-weight: bold;" class="text-warning">109.000</span><br>
-                            <span class="text-secondary" style="font-weight: bold; margin: 0 !important">/30 days</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @endforelse
     </div>
 </div>
 

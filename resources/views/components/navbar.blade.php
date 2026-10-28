@@ -56,11 +56,13 @@
                             <div class="row g-2">
                                 @foreach($navbarCategories as $category)
                                     <div class="col-3">
-                                        <div class="card py-2">
-                                            <div class="card-body p-2 text-center">
-                                                {{ $category->name }}
+                                        <a href="{{ route('category.books', $category->id) }}" class="text-decoration-none text-dark">
+                                            <div class="card py-2 card-link">
+                                                <div class="card-body p-2 text-center">
+                                                    {{ $category->name }}
+                                                </div>
                                             </div>
-                                        </div>
+                                        </a>
                                     </div>
                                 @endforeach
                             </div>

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Book;
+use App\Models\SubscriptionPackage;
+use App\Models\BookCategory;
 
 class UserController extends Controller
 {
@@ -111,9 +113,10 @@ class UserController extends Controller
 
     public function home()
     {
+        $subscriptionPackages = SubscriptionPackage::orderBy('created_at', 'desc')->limit(3)->get();
         $latestBooks = Book::orderBy('created_at', 'desc')->limit(10)->get();
         $freeBooks = Book::where('price', 0)->orderBy('created_at', 'desc')->limit(6)->get();
-        return view('home', compact('latestBooks', 'freeBooks'));
+        return view('home', compact('subscriptionPackages', 'latestBooks', 'freeBooks'));
     }
 
     public function search(Request $request)
@@ -126,5 +129,38 @@ class UserController extends Controller
             ->get();
 
         return view('search_result', compact('books', 'query'));
+    }
+
+    public function categoryBooks(Request $request, $id)
+    {
+        $category = BookCategory::findOrFail($id);
+
+        $query = $request->input('q', $request->input('search'));
+        $sort = $request->input('sort');
+
+        $books = Book::where('book_category_id', $id);
+
+        // Filter pencarian berdasarkan judul buku atau penulis
+        if ($query) {
+            $books->where(function ($q) use ($query) {
+                $q->where('title', 'like', '%' . $query . '%')
+                    ->orWhere('writer', 'like', '%' . $query . '%');
+            });
+        }
+
+        // Pengurutan data buku berdasarkan opsi dropdown (opsional)
+        if ($sort == 'cheapest' || $sort == 'price_asc' || $sort == 'termurah') {
+            $books->orderBy('price', 'asc');
+        } elseif ($sort == 'expensive' || $sort == 'price_desc' || $sort == 'termahal') {
+            $books->orderBy('price', 'desc');
+        } elseif ($sort == 'latest' || $sort == 'terbaru') {
+            $books->orderBy('created_at', 'desc');
+        } else {
+            $books->orderBy('created_at', 'desc');
+        }
+
+        $books = $books->get();
+
+        return view('category_books', compact('category', 'books', 'query', 'sort'));
     }
 }

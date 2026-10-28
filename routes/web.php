@@ -10,6 +10,8 @@ use App\Http\Controllers\BookController;
 
 Route::get('/', [UserController::class, 'home'])->name('home');
 Route::get('/search', [UserController::class, 'search'])->name('search');
+Route::get('/category/{id}', [UserController::class, 'categoryBooks'])->name('category.books');
+Route::get('/categories/{id}', [UserController::class, 'categoryBooks'])->name('categories.books');
 
 Route::middleware('IsGuest')->group(function () {
     Route::get('/register', function () {

@@ -35,13 +35,14 @@ class SubscriptionPackageController extends Controller
                     $method = method_field('DELETE');
 
                     return '
-                        <a href="' . $editUrl . '" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="' . $editUrl . '" class="btn btn-sm btn-warning ms-3">Edit</a>
                         <form action="' . $destroyUrl . '" method="POST" class="d-inline">
                             ' . $csrf . '
                             ' . $method . '
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm(\'Apakah Anda yakin ingin menghapus paket ini?\')">Hapus</button>
-                        </form>
-                    ';
+                            <button type="submit" class="btn btn-sm btn-danger ms-3" onclick="return confirm(\'Apakah Anda yakin ingin menghapus paket ini?\')">Hapus</button>
+                        </form>'.
+                        '<a class = "btn btn-sm btn-success ms-3" href="' . route('admin.subscription-package-books', ['packageId' => $row->id]) . '">Buku</a>'
+                        ;
                 })
                 // Memberitahu Yajra bahwa kolom 'action' mengandung tag HTML
                 ->rawColumns(['action'])

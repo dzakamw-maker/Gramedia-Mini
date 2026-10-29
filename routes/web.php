@@ -6,12 +6,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Controllers\BookCategoryController;
 use App\Http\Controllers\SubscriptionPackageController;
+use App\Http\Controllers\SubscriptionPackageBookController;
 use App\Http\Controllers\BookController;
 
 Route::get('/', [UserController::class, 'home'])->name('home');
 Route::get('/search', [UserController::class, 'search'])->name('search');
 Route::get('/category/{id}', [UserController::class, 'categoryBooks'])->name('category.books');
-Route::get('/categories/{id}', [UserController::class, 'categoryBooks'])->name('categories.books');
 
 Route::middleware('IsGuest')->group(function () {
     Route::get('/register', function () {
@@ -34,6 +34,10 @@ Route::middleware(['IsLoggedIn'])->group(function () {
 
         Route::resource('book-categories', BookCategoryController::class);
         Route::resource('subscription-packages', SubscriptionPackageController::class);
+
+        Route::get('subscription-package-books/{packageId}', [SubscriptionPackageBookController::class,'index'])->name('subscription-package-books');
+        Route::post('subscription-package-books/{packageId}', [SubscriptionPackageBookController::class,'store'])->name('subscription-package-books.store');
+
         Route::resource('books', BookController::class);
     });
 });

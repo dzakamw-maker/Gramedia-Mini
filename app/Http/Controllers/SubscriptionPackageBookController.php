@@ -42,6 +42,16 @@ class SubscriptionPackageBookController extends Controller
                         ? $row->bookCategory->name
                         : '-';
                 })
+
+                // untuk mengecek apakah buku sudah ditambahkan ke paket langganan yang lagi dipilih
+                ->addColumn('checkBook', function ($row) use ($packageId) {
+                    // ambil book_id dari package_book yang package_id nya sesuai yang lagi dipilih
+                    $bookIds = SubscriptionPackageBook::where('subscription_package_id', $packageId)->pluck('book_id')->toArray();
+                    // pluck : mengambil data hanya dari 1 attribute yang dipanggil. hasilnya di SubscriptionPackageBook ada package_id sama book_id, yang akan diambil datanya hanya book_id. Data disimpan ke array dengan toArray()
+
+                    return in_array($row->id, $bookIds) ? true : false;
+                    // jika $row->id (id buku) ada di array $bookIds (yang isinya daftar book_id dari db package_book), maka kembalikan nilai true, jika tidak ada kembalikan nilai false
+                })
                 ->rawColumns(['cover'])
                 ->make(true);
         }
@@ -65,10 +75,10 @@ class SubscriptionPackageBookController extends Controller
     {
         $request->validate([
             //memastikan bookIds ada isinya
-            'bookIds'=> 'required'
+            'bookIds' => 'required'
         ]);
 
-        foreach($request->bookIds as $key => $value){
+        foreach ($request->bookIds as $key => $value) {
             //membuat data subscription package book
             SubscriptionPackageBook::create([
                 //membuat data book id

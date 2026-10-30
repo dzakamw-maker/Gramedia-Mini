@@ -42,10 +42,17 @@
                 ajax: "{{ route('admin.subscription-package-books', ['packageId' => $subscriptionPackage->id]) }}",
                 columns: [
                     {
-                        data: 'id',
-                        name: 'id',
-                        render: function(id){
-                            return `<input type="checkbox" value="${id}" class="inputBookId" name="bookIds[]" >`;
+                        //yang dikirim ke db ketika memilih checklist buku adalah id nya
+                        data: null, //null: mengirimkan semua attribute dari data
+                        orderable: false,
+                        searchable: false,
+                        // mengganti tampilan angka id menjadi checkbox
+                        render: function(data){
+                            if (data.checkBook == true){
+                                return '';
+                            } else {
+                                return `<input type="checkbox" value="${data.id}" class="inputBookId" name="bookIds[]" >`;
+                            } 
                         }
 
                     },

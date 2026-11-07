@@ -94,8 +94,12 @@
         </ul>
 
         <div class="flex-row-order-md_last ms_auto">
-            <div class="flex-now order-md-last ms-auto">
+            <div class="d-flex align-items-center order-md-last ms-auto">
                 @if(Auth::check())
+                    <a href="{{ route('profile') }}" class="avatar avatar-sm rounded-circle me-3 text-decoration-none bg-secondary-subtle text-dark fw-bold position-relative" title="Profil Saya">
+                        {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
+                        <span class="badge bg-success position-absolute bottom-0 end-0 p-1 rounded-circle"></span>
+                    </a>
                     <a href="{{route('logout')}}" class="btn btn-danger">Log Out</a>
                 @else
                     <a href="{{route('login') }}" class="btn btn-primary">Masuk</a>
@@ -103,4 +107,5 @@
                 @endif
             </div>
         </div>
+    </div>
 </header>

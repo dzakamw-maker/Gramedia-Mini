@@ -10,6 +10,8 @@ use App\Models\Book;
 use App\Models\SubscriptionPackage;
 use App\Models\BookCategory;
 use App\Models\SubscriptionPackageBook;
+use App\Models\SubscriptionPackageUser;
+use App\Models\Checkout;
 
 class UserController extends Controller
 {
@@ -199,6 +201,40 @@ class UserController extends Controller
         }
 
         return view('subscription-package-books', compact('subscriptionPackage', 'books', 'query', 'sort'));
+    }
+
+    public function profile(Request $request)
+    {
+        $user = Auth::user();
+
+        // Koleksi Buku : menghitung jumlah data dari table checkouts sesuai dengan id pengguna
+        $bookCollectionCount = Checkout::where('user_id', $user->id)->count();
+
+        // Langganan : menghitung jumlah data dari table subscription_package_users sesuai dengan id pengguna
+        $subscriptionCount = SubscriptionPackageUser::where('user_id', $user->id)->count();
+
+        // Dropdown Filter Jenis Langganan : secara default menampilkan daftar transaksi dari Paket Langganan
+        $filter = $request->input('filter', 'paket_langganan');
+
+        // Daftar pembelian paket langganan pengguna
+        $subscriptions = SubscriptionPackageUser::with('subscriptionPackage')
+            ->where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Daftar pembelian buku pengguna
+        $checkouts = Checkout::where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('user.profile', compact(
+            'user',
+            'bookCollectionCount',
+            'subscriptionCount',
+            'filter',
+            'subscriptions',
+            'checkouts'
+        ));
     }
 
 }

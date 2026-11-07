@@ -29,6 +29,7 @@ Route::middleware('IsGuest')->group(function () {
 
 Route::middleware(['IsLoggedIn'])->group(function () {
     Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+    Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 
     // kelompok route untuk admin yg pathnya diawali dengan /admin
     // seluruh route pada kelompok ini akan dipanggil dengan nama yang diawali dengan admin. (misal admin.dashboard)

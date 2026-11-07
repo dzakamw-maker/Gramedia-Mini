@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\SubscriptionPackage;
+use App\Models\SubscriptionPackageUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 class SubscriptionPackageController extends Controller
@@ -123,5 +125,21 @@ class SubscriptionPackageController extends Controller
         $subscriptionPackage->delete();
 
         return redirect()->route('admin.subscription-packages.index')->with('success', 'Paket Langganan berhasil dihapus.');
+    }
+
+    public function payment($id){
+        $subscriptionPackage = SubscriptionPackage::findOrFail($id);
+        return view('user.subscription-package-payment', compact('subscriptionPackage'));
+    }
+
+    public function paymentSend(Request $request, $id){
+        SubscriptionPackageUser::create([
+            'subscription_package_id'=> $id,
+            'user_id'=> Auth::id(),
+            'expired_date' => now()->addDays(30)->format('Y-m-d')
+        ]);
+
+        return redirect()->route('home')->with('success', 'Langganan berhasil diaktifkan. Paket berlaku hingga 30 hari ke depan.');
+
     }
 }

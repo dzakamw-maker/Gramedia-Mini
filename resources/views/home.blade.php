@@ -137,7 +137,7 @@
     </div>
     <div class="row g-4">
         @forelse ($subscriptionPackages as $package)
-        <div class="col-md-4">
+        <a href="{{ route('package.books', $package->id) }}" class="col-md-4">
             <div class="card h-100" style="background: linear-gradient(135deg, #ffffff 0%, {{ $package->color }} 100%);">
                 <div class="card-body row">
                     <div class="col-4"></div>
@@ -151,7 +151,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </a>
         @empty
             <div class="col-12 text-center text-secondary">
                 <p>Tidak ada paket langganan.</p>

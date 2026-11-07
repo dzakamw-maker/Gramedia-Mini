@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Book;
 use App\Models\SubscriptionPackage;
 use App\Models\BookCategory;
+use App\Models\SubscriptionPackageBook;
 
 class UserController extends Controller
 {
@@ -163,4 +164,41 @@ class UserController extends Controller
 
         return view('category_books', compact('category', 'books', 'query', 'sort'));
     }
+
+    public function packageBooks(Request $request, $id)
+    {
+        $subscriptionPackage = SubscriptionPackage::findOrFail($id);
+
+        $query = $request->input('q', $request->input('search'));
+        $sort = $request->input('sort');
+
+        // 1. Taruh with('book') saat memanggil SubscriptionPackageBook
+        $packageBooks = SubscriptionPackageBook::with('book')
+            ->where('subscription_package_id', $id);
+
+        // 2. Filter judul atau penulis menggunakan whereHas ke relasi book
+        if ($query) {
+            $packageBooks->whereHas('book', function ($q) use ($query) {
+                $q->where('title', 'like', '%' . $query . '%')
+                  ->orWhere('writer', 'like', '%' . $query . '%');
+            });
+        }
+
+        $packageBooks = $packageBooks->get();
+
+        // 3. Ambil koleksi buku agar Blade tetap bisa membaca $book->title, $book->price, dll
+        $books = $packageBooks->pluck('book')->filter();
+
+        // 4. Pengurutan data buku
+        if ($sort == 'cheapest' || $sort == 'price_asc' || $sort == 'termurah') {
+            $books = $books->sortBy('price')->values();
+        } elseif ($sort == 'expensive' || $sort == 'price_desc' || $sort == 'termahal') {
+            $books = $books->sortByDesc('price')->values();
+        } else {
+            $books = $books->sortByDesc('created_at')->values();
+        }
+
+        return view('subscription-package-books', compact('subscriptionPackage', 'books', 'query', 'sort'));
+    }
+
 }

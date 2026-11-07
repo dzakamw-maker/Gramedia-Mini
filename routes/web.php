@@ -8,10 +8,15 @@ use App\Http\Controllers\BookCategoryController;
 use App\Http\Controllers\SubscriptionPackageController;
 use App\Http\Controllers\SubscriptionPackageBookController;
 use App\Http\Controllers\BookController;
+use App\Models\SubscriptionPackage;
 
 Route::get('/', [UserController::class, 'home'])->name('home');
 Route::get('/search', [UserController::class, 'search'])->name('search');
 Route::get('/category/{id}', [UserController::class, 'categoryBooks'])->name('category.books');
+Route::get('/package/{id}', [UserController::class, 'packageBooks'])->name('package.books');
+Route::get('/subscription-packages/{id}', [SubscriptionPackageController::class, 'payment'])->name('subscription-packages.payment');
+Route::post('/subscription-packages/{id}', [SubscriptionPackageController::class, 'paymentSend'])->name('subscription-packages.payment.send');
+
 
 Route::middleware('IsGuest')->group(function () {
     Route::get('/register', function () {

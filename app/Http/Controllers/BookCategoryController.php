@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BookCategoriesExport;
 use App\Models\BookCategory;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class BookCategoryController extends Controller
 {
@@ -116,5 +119,9 @@ class BookCategoryController extends Controller
 
         return redirect()->route('admin.book-categories.index')->with('success', 'Kategori buku berhasil
         dihapus.');
+    }
+
+    public function export(){
+        return Excel::download(new BookCategoriesExport, 'kategori.xlsx');
     }
 }

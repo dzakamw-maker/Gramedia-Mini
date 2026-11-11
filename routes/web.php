@@ -38,6 +38,8 @@ Route::middleware(['IsLoggedIn'])->group(function () {
             return view('admin.dashboard');
         })->name('dashboard');
 
+        Route::get('/book-categoories/export', [BookCategoryController::class, 'export'])->name('book-categories.export');
+
         Route::resource('book-categories', BookCategoryController::class);
         Route::resource('subscription-packages', SubscriptionPackageController::class);
 

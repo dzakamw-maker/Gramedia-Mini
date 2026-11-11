@@ -4,7 +4,12 @@
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1>Kategori Buku</h1>
-        <a href="{{ route('admin.book-categories.create') }}" class="btn btn-primary mb-3">Tambah Data</a>
+        <div>
+            <a href="{{ route('admin.book-categories.create') }}" class="btn btn-primary mb-3">Tambah Data</a>
+            <a href="{{ route('admin.book-categories.export') }}" class="btn btn-success mb-3">Export excel</a>
+        </div>
+        
+        
     </div>
 
     @if (session('success'))

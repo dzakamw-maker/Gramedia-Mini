@@ -194,9 +194,7 @@ class BookController extends Controller
         return redirect()->route('admin.books.index')->with('success', 'Buku berhasil dihapus.');
     }
 
-    /**
-     * Export books data to an Excel spreadsheet.
-     */
+    // Mengunduh data buku dalam format file Excel
     public function export()
     {
         return Excel::download(new BooksExport, 'buku.xlsx');

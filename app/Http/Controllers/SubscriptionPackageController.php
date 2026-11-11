@@ -146,6 +146,7 @@ class SubscriptionPackageController extends Controller
     }
 
     
+    // Mengunduh data paket langganan dalam format file Excel
     public function export()
     {
         return Excel::download(new SubscriptionPackagesExport, 'paket-langganan.xlsx');

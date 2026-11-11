@@ -8,11 +8,16 @@
             </div>
         @endif
 
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between align-items-center mb-3">
             <h1>Data Buku</h1>
-            <a href="{{ route('admin.books.create') }}" class="btn btn-primary">
-                Tambah Buku
-            </a>
+            <div>
+                <a href="{{ route('admin.books.create') }}" class="btn btn-primary">
+                    Tambah Buku
+                </a>
+                <a href="{{ route('admin.books.export') }}" class="btn btn-success">
+                    Export Excel
+                </a>
+            </div>
         </div>
 
         <table class="table table-bordered" id="books-table">

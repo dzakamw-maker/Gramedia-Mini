@@ -27,7 +27,7 @@ class BookCategoriesExport implements FromCollection, WithHeadings, WithMapping,
 
     public function collection(): Collection
     {
-        return BookCategory::with('','books')->get();
+        return BookCategory::with('books')->get();
     }
 
     public function map($bookCategory): array

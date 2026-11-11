@@ -41,6 +41,7 @@ Route::middleware(['IsLoggedIn'])->group(function () {
         Route::get('/book-categoories/export', [BookCategoryController::class, 'export'])->name('book-categories.export');
 
         Route::resource('book-categories', BookCategoryController::class);
+        Route::get('/subscription-packages/export', [SubscriptionPackageController::class, 'export'])->name('subscription-packages.export');
         Route::resource('subscription-packages', SubscriptionPackageController::class);
 
         Route::get('subscription-package-books/{packageId}', [SubscriptionPackageBookController::class,'index'])->name('subscription-package-books');

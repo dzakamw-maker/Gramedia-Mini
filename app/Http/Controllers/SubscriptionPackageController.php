@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SubscriptionPackagesExport;
 use App\Models\SubscriptionPackage;
 use App\Models\SubscriptionPackageUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class SubscriptionPackageController extends Controller
@@ -141,5 +143,11 @@ class SubscriptionPackageController extends Controller
 
         return redirect()->route('home')->with('success', 'Langganan berhasil diaktifkan. Paket berlaku hingga 30 hari ke depan.');
 
+    }
+
+    
+    public function export()
+    {
+        return Excel::download(new SubscriptionPackagesExport, 'paket-langganan.xlsx');
     }
 }

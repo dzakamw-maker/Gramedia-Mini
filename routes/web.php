@@ -12,6 +12,9 @@ use App\Models\SubscriptionPackage;
 
 Route::get('/', [UserController::class, 'home'])->name('home');
 Route::get('/search', [UserController::class, 'search'])->name('search');
+
+Route::get('/books/{id}', [BookController::class, 'show'])->name('books.show');
+
 Route::get('/category/{id}', [UserController::class, 'categoryBooks'])->name('category.books');
 Route::get('/package/{id}', [UserController::class, 'packageBooks'])->name('package.books');
 Route::get('/subscription-packages/{id}', [SubscriptionPackageController::class, 'payment'])->name('subscription-packages.payment');
@@ -48,7 +51,7 @@ Route::middleware(['IsLoggedIn'])->group(function () {
         Route::post('subscription-package-books/{packageId}', [SubscriptionPackageBookController::class,'store'])->name('subscription-package-books.store');
 
         Route::get('/books/export', [BookController::class, 'export'])->name('books.export');
-        Route::resource('books', BookController::class);
+        Route::resource('books', BookController::class)->except(['show']);
     });
 });
 

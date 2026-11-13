@@ -178,7 +178,11 @@
                     </div>
                     <div class="mt-2">
                         <span style="font-size: 0.8rem;" class="text-secondary">{{ $book->author }}</span>
-                        <h5 class="mb-1" style="font-size: 0.95rem; font-weight: 600;">{{ $book->title }}</h5>
+                        <h5 class="mb-1" style="font-size: 0.95rem; font-weight: 600;">
+                            <a href="{{ route('books.show', $book->id) }}" 
+                                class="text-decoration-none text-dark">{{ $book->title }}
+                            </a>
+                        </h5>
                         <h6 style="font-size: 1rem; font-weight: bold;" class="text-primary mb-0">Rp {{ number_format($book->price, 0, ',', '.') }}</h6>
                     </div>
                 </div>

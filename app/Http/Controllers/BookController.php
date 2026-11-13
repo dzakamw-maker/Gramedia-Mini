@@ -117,9 +117,10 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Book $book)
+    public function show($id)
     {
-        //
+        $book = Book::where('id', $id)->with('subscriptionPackageBooks')->first();
+        return view('user.books.show', compact('book'));
     }
 
     /**

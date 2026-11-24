@@ -86,7 +86,7 @@
 
                 {{-- CART ICON --}}
                 <div class="mt-3 ms-2">
-                    <i class="fa-solid fa-cart-arrow-down fs-3 text-dark"></i>
+                    <a href="{{ route('cart') }}"><i class="fa-solid fa-cart-arrow-down fs-3 text-dark"></i></a>
                 </div>
 
             @endif

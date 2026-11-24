@@ -19,6 +19,16 @@
 @endpush
 
 @section('content')
+<form method="POST" action="{{ route('cart.store')  }}">
+    @csrf
+
+    @if (session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+    @if (session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
+
     <div class="page-body">
         <div class="container-xl pb-5 bg-white p-3">
             <div class="row g-4">
@@ -163,16 +173,19 @@
 
                 <!-- Tombol Transaksi -->
                 <div class="d-flex gap-2">
-                    <button type="button" class="btn btn-outline-primary px-4 py-2 font-weight-medium">
+                    <!-- agar controller memeriksa data book id tanpa wujud input asli -->
+                    <input type="hidden" name="book_id" value="{{ $book->id }}">
+                    <button type="submit" name="action" value="add_to_cart" class="btn btn-outline-primary px-4 py-2 font-weight-medium">
                         Tambah ke Keranjang
                     </button>
-                    <button type="button" class="btn btn-primary px-4 py-2 font-weight-medium">
+                    <button type="button" name="action" value="buy_now" class="btn btn-primary px-4 py-2 font-weight-medium">
                         Beli Sekarang
                     </button>
                 </div>
             </div>
         </div>
     </div>
+</form>
 @endsection
 
 @push('scripts')

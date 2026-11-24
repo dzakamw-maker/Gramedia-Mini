@@ -9,6 +9,7 @@ use App\Http\Controllers\SubscriptionPackageController;
 use App\Http\Controllers\SubscriptionPackageBookController;
 use App\Http\Controllers\BookController;
 use App\Models\SubscriptionPackage;
+use App\Http\Controllers\CartController;
 
 Route::get('/', [UserController::class, 'home'])->name('home');
 Route::get('/search', [UserController::class, 'search'])->name('search');
@@ -33,6 +34,10 @@ Route::middleware('IsGuest')->group(function () {
 Route::middleware(['IsLoggedIn'])->group(function () {
     Route::get('/logout', [UserController::class, 'logout'])->name('logout');
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+
+    Route::get('/cart', [CartController::class,'index'])->name('cart');
+    Route::post('/cart', [CartController::class,'store'])->name('cart.store');
+    Route::delete('/cart/{id}', [CartController::class,'destroy'])->name('c');
 
     // kelompok route untuk admin yg pathnya diawali dengan /admin
     // seluruh route pada kelompok ini akan dipanggil dengan nama yang diawali dengan admin. (misal admin.dashboard)

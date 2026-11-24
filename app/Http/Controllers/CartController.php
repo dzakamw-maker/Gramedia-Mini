@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\SubscriptionPackageUser;
 
 class CartController extends Controller
 {
@@ -13,8 +14,37 @@ class CartController extends Controller
      */
     public function index()
     {
-        $carts = Cart::where('user_id', Auth::user()->id)->with(['book', 'subscriptionPackage'])->get();
-        return view('user.books.cart', compact('carts'));
+        $userId = Auth::id();
+
+        $carts = Cart::with(['book', 'subscriptionPackage'])
+            ->where('user_id', $userId)
+            ->get();
+
+        // paket langganan aktif milik pengguna
+        $activePackageIds = SubscriptionPackageUser::where('user_id', $userId)
+            ->whereDate('expired_date', '>', today())
+            ->pluck('subscription_package_id');
+
+        // paket di keranjang yang belum dibeli pengguna
+        $packageUserNotBought = $carts
+            ->whereNotNull('subscription_package_id') // jangan ambil yg subscription_package_id nya null (buku satuan)
+            ->pluck('subscription_package_id')
+            ->unique() // subscription_package_id diambil unik (tidak duplikat)
+            ->diff($activePackageIds) // membandingkan subscription_package_id yg belum ada di $activePackageIds (paket yg uda dibeli)
+            ->values(); // ambil ulang collection yg sudah disesuaikan (filter)
+
+        // menambahkan attribute baru ke data $carts
+        $carts->each(function ($cart) use ($packageUserNotBought) {
+            // untuk menyesuaikan harga yg ditampilkan : dari paket langganan atau satuan buku
+            $cart->display_price = $cart->subscriptionPackage ? $cart->subscriptionPackage->price : $cart->book->price;
+            // contains() mengembalikan true/false apakah $cart->subscription_package_id item ini ada di $packageUserNotBought (paket yg belum dibeli pengguna)
+            $cart->needs_package = $packageUserNotBought->contains($cart->subscription_package_id);
+        });
+
+        // total harga dari semua item di keranjang
+        $totalPrice = $carts->sum('display_price');
+
+        return view('user.books.cart', compact('carts', 'totalPrice'));
     }
 
     /**
@@ -75,7 +105,7 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cart $cart, $id)
+    public function destroy($id)
     {
         Cart::where('id', $id)->where('user_id', Auth::id())->delete();
         return redirect()->route('cart')->with('success', 'Buku berhasil dihapus dari keranjang');

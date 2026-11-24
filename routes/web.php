@@ -37,7 +37,7 @@ Route::middleware(['IsLoggedIn'])->group(function () {
 
     Route::get('/cart', [CartController::class,'index'])->name('cart');
     Route::post('/cart', [CartController::class,'store'])->name('cart.store');
-    Route::delete('/cart/{id}', [CartController::class,'destroy'])->name('c');
+    Route::delete('/cart/{id}', [CartController::class,'destroy'])->name('cart.destroy');
 
     // kelompok route untuk admin yg pathnya diawali dengan /admin
     // seluruh route pada kelompok ini akan dipanggil dengan nama yang diawali dengan admin. (misal admin.dashboard)

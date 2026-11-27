@@ -67,7 +67,7 @@
                                         {{ $checkout->created_at ? $checkout->created_at->format('d M Y, H:i') : '-' }}
                                     </span>
                                     <span class="badge border border-success text-success bg-transparent px-2 py-1">
-                                        {{ $checkout->status == 'Done' ? 'Transaksi Sukses' : $checkout->status }}
+                                        {{ in_array($checkout->status, ['paid', 'Done']) ? 'Transaksi Sukses' : $checkout->status }}
                                     </span>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['checkout_id', 'book_id', 'total_book'])]
+#[Fillable(['checkout_id', 'book_id', 'subscription_package_id', 'price'])]
 class CheckoutBook extends Model
 {
     public function checkout(): BelongsTo

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\UserController;
 use Illuminate\Routing\RouteUri;
+use App\Http\Controllers\CheckoutController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Controllers\BookCategoryController;
@@ -21,6 +22,8 @@ Route::get('/package/{id}', [UserController::class, 'packageBooks'])->name('pack
 Route::get('/subscription-packages/{id}', [SubscriptionPackageController::class, 'payment'])->name('subscription-packages.payment');
 Route::post('/subscription-packages/{id}', [SubscriptionPackageController::class, 'paymentSend'])->name('subscription-packages.payment.send');
 
+Route::post('payments/midtrans-notification', [CheckoutController::class, 'receive']);
+
 
 Route::middleware('IsGuest')->group(function () {
     Route::get('/register', function () {
@@ -38,6 +41,11 @@ Route::middleware(['IsLoggedIn'])->group(function () {
     Route::get('/cart', [CartController::class,'index'])->name('cart');
     Route::post('/cart', [CartController::class,'store'])->name('cart.store');
     Route::delete('/cart/{id}', [CartController::class,'destroy'])->name('cart.destroy');
+
+    Route::post('/checkout', [CheckoutController::class,'store'])->name('checkout.store');
+    Route::get('/checkout/{id}/snap', [CheckoutController::class,'show'])->name('checkout.show');
+
+
 
     // kelompok route untuk admin yg pathnya diawali dengan /admin
     // seluruh route pada kelompok ini akan dipanggil dengan nama yang diawali dengan admin. (misal admin.dashboard)

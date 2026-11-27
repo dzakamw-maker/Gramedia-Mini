@@ -10,6 +10,7 @@
         "laravel/framework": "^13.17",
         "laravel/tinker": "^3.0",
         "maatwebsite/excel": "^4.0",
+        "midtrans/midtrans-php": "^2.6",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "yajra/laravel-datatables": "13.0"
     },

@@ -45,6 +45,8 @@ Route::middleware(['IsLoggedIn'])->group(function () {
     Route::post('/checkout', [CheckoutController::class,'store'])->name('checkout.store');
     Route::get('/checkout/{id}/snap', [CheckoutController::class,'show'])->name('checkout.show');
 
+    Route::get('checkout/{id}/pdf', [CheckoutController::class,'exportPDF'])->name('checkout.pdf');
+
 
 
     // kelompok route untuk admin yg pathnya diawali dengan /admin

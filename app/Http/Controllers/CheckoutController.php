@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Services\Midtrans\CreateSnapTokenService;
 use App\Services\Midtrans\CallbackService;
 use Faker\Provider\Payment;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class CheckoutController extends Controller
@@ -165,5 +166,17 @@ class CheckoutController extends Controller
                     'message' => 'Signature key not verified',
                 ], 403);
         }
+    }
+
+    public function exportPDF($id)
+    {
+        $checkout = Checkout::where('id' ,$id)
+        ->with(['checkoutBooks', 'checkoutBooks.book'])
+        ->first();
+
+        $pdf = Pdf::loadView('user.checkout.pdf', compact('checkout'));
+
+        return $pdf->download($checkout['order_code'] . '.pdf');
+        
     }
 }

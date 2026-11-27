@@ -22,6 +22,7 @@
                 <button class="btn btn-primary" id="pay-button">Pay Now</button>
                 @else
                 Payment successful
+                <a href="{{ route('checkout.pdf', $checkout->id) }}" class= "btn btn-primary">Print Struk</a>
                 @endif
             </div>
         </div>
